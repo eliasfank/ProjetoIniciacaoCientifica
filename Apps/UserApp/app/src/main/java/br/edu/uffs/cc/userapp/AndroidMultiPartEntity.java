@@ -11,7 +11,6 @@ package br.edu.uffs.cc.userapp;
 public class AndroidMultiPartEntity extends MultipartEntity
 
 {
-
     public AndroidMultiPartEntity() {
         super();
 
@@ -28,8 +27,6 @@ public class AndroidMultiPartEntity extends MultipartEntity
         super(mode, boundary, charset);
 
     }
-
-
 
     public static interface ProgressListener {
         void transferred(long num);

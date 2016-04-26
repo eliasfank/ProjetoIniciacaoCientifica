@@ -1,6 +1,6 @@
 package br.edu.uffs.cc.userapp;
 
-        import android.app.AlertDialog;
+import android.app.AlertDialog;
         import android.app.Service;
         import android.content.Context;
         import android.content.DialogInterface;

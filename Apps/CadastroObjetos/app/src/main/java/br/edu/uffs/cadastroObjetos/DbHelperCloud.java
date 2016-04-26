@@ -113,13 +113,11 @@ public class DbHelperCloud {
         params.add(new BasicNameValuePair("local_id", Integer.toString(o.getLocal())));
         params.add(new BasicNameValuePair("latitude", Double.toString(o.getLatitude())));
         params.add(new BasicNameValuePair("longitude", Double.toString(o.getLongitude())));
-        params.add(new BasicNameValuePair("altitude", Double.toString(o.getAltitude())));
         params.add(new BasicNameValuePair("imagem", Base64.encodeToString(o.getImagem(), Base64.DEFAULT)));
         // getting JSON Object
         // Note that create product url accepts POST method
         String url_create_objeto = url+"create_objeto.php";
         JSONObject json = jsonParser.makeHttpRequest(url_create_objeto, "POST", params);
-
 
         // check log cat fro response
         Log.d("Create Response Novo", json.toString());

@@ -92,7 +92,8 @@
 	        //Precisamos mostrar onde o php deve procurar as bibliotecas
 			putenv("LD_LIBRARY_PATH=/usr/local/lib");
 			
-			$scriptName = " opencv_chi-squared.py";
+			$scriptName = " features_detection.py";
+			#$scriptName = " opencv_chi-squared.py";
 			#$scriptName = " opencv_intersection.py";
 			#$scriptName = " opencv_hellinger.py";
 			#$scriptName = " opencv_correlation.py";
@@ -106,7 +107,7 @@
 			//Executando atraves do shell o script python
 			exec($command, $output);
 
-			if($output[1] < 20){
+			if($output[1] > 10){
 				$distancia = $mapeado[$output[0]]->distancia;
 		    	$idObjeto = $mapeado[$output[0]]->id;
 				//Enviando resposta para o android

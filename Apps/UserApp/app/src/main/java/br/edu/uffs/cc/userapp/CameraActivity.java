@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -52,36 +53,39 @@ public class CameraActivity extends Activity {
     private Imagem im;
     private GPSTracker gps;
     private ProgressDialog pDialog;
-    private Context aplicationactivity;
-    private File pictureFile;
+    private Context activityContext;
     private TextToSpeech tts;
     public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
-    private List<Camera.Size> finalSize;
 
     private String FILE_UPLOAD_URL;
 
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        aplicationactivity = this;
-        im = new Imagem(aplicationactivity);
+
+        activityContext = this;
+        im = new Imagem(activityContext);
+
         setContentView(R.layout.activity_camera);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mCamera = getCameraInstance();
         CameraPreview mCameraPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mCameraPreview);
 
         SharedPreferences sharedPreferences = getSharedPreferences("PrefsFile", 0);
-        FILE_UPLOAD_URL = "http://"+sharedPreferences.getString("MEM1", "")+"/Recognizer/receber_imagem2.php";
+        FILE_UPLOAD_URL = "http://"+sharedPreferences.getString("MEM1", "")+"/Recognizer/receber_imagem.php";
 
-        finalSize = mCamera.getParameters().getSupportedPreviewSizes();
-        Camera.Size size = finalSize.get(0);
-        for(int i=0;i<finalSize.size();i++)
+        List<Camera.Size> supSizes;
+        supSizes = mCamera.getParameters().getSupportedPreviewSizes();
+        Camera.Size size = supSizes.get(0);
+        for(int i=0;i<supSizes.size();i++)
         {
-            if(finalSize.get(i).width > size.width)
-                size = finalSize.get(i);
+            if(supSizes.get(i).width > size.width)
+                size = supSizes.get(i);
         }
 
         Log.e("SIZE", size.width + "/" + size.height);
@@ -89,7 +93,7 @@ public class CameraActivity extends Activity {
         // get Camera parameters
         Camera.Parameters params = mCamera.getParameters();
         // Set the picture size
-        params.setPictureSize(size.width,size.height);
+        params.setPictureSize(size.width, size.height);
         // Aditional params
         params.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
         params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
@@ -97,7 +101,6 @@ public class CameraActivity extends Activity {
         params.setWhiteBalance(Camera.Parameters.WHITE_BALANCE_AUTO);
         params.setExposureCompensation(0);
         params.setJpegQuality(100);
-        params.setRotation(90);
         // set Camera parameters
         mCamera.setParameters(params);
 
@@ -113,7 +116,7 @@ public class CameraActivity extends Activity {
         preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gps = new GPSTracker(aplicationactivity);
+                gps = new GPSTracker(activityContext);
                 if(gps.canGetLocation()){
                     im.setLat(gps.getLatitude());
                     im.setLon(gps.getLongitude());
@@ -126,12 +129,6 @@ public class CameraActivity extends Activity {
         });
     }
 
-    /**
-     * Helper method to access the camera returns null if it cannot get the
-     * camera or does not exist
-     *
-     * @return
-     */
     private Camera getCameraInstance() {
         Camera camera = null;
         try {
@@ -145,13 +142,13 @@ public class CameraActivity extends Activity {
     Camera.PictureCallback mPicture = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            Log.d("Local do arquivo:", ""+pictureFile);
-            if (pictureFile == null) {
+            im.setImagem(getOutputMediaFile(MEDIA_TYPE_IMAGE));
+            Log.d("Local do arquivo:", ""+im.getImagem());
+            if (im.getImagem() == null) {
                 return;
             }
             try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
+                FileOutputStream fos = new FileOutputStream(im.getImagem());
                 fos.write(data);
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -160,25 +157,10 @@ public class CameraActivity extends Activity {
                 Log.d("ERRO", "Error accessing file: " + e.getMessage());
             }
 
-            //new mandarImagem().execute();
             new UploadFileToServer().execute();
         }
     };
 
-    /**
-     * ------------ Helper Methods ----------------------
-     * */
-
-    /**
-     * Creating file uri to store image/video
-     */
-    public Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /**
-     * returning image / video
-     */
     private static File getOutputMediaFile(int type) {
 
         // External sdcard location
@@ -200,9 +182,6 @@ public class CameraActivity extends Activity {
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
-        } else if (type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "VID_" + timeStamp + ".mp4");
         } else {
             return null;
         }
@@ -217,7 +196,7 @@ public class CameraActivity extends Activity {
     }
 
     /**
-     * Uploading the file to server
+     * Uploading the image to server
      * */
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
         /**
@@ -232,7 +211,6 @@ public class CameraActivity extends Activity {
             pDialog.setCancelable(true);
             pDialog.show();
         }
-
 
         @Override
         protected String doInBackground(Void... params) {
@@ -251,7 +229,7 @@ public class CameraActivity extends Activity {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity();
 
                 // Adding file data to http body
-                entity.addPart("imagem", new FileBody(pictureFile));
+                entity.addPart("imagem", new FileBody(im.getImagem()));
 
                 // Extra parameters if you want to pass to server
                 entity.addPart("latitude", new StringBody(Double.toString(im.getLat())));
@@ -286,9 +264,6 @@ public class CameraActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
             Log.e("", "Response from server: " + result);
-            // showing the server response in an alert dialog
-            //showAlert(result);
-            //im.setResultado(result);
             try {
                 im.setResultado(URLDecoder.decode(result, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
@@ -299,5 +274,4 @@ public class CameraActivity extends Activity {
             super.onPostExecute(result);
         }
     }
-
 }

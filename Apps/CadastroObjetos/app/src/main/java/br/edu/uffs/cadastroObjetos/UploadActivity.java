@@ -171,7 +171,6 @@ public class UploadActivity extends Activity {
                 entity.addPart("local_id", new StringBody(Integer.toString(objeto.getLocal())));
                 entity.addPart("latitude", new StringBody(Double.toString(objeto.getLatitude())));
                 entity.addPart("longitude", new StringBody(Double.toString(objeto.getLongitude())));
-                entity.addPart("altitude", new StringBody(Double.toString(objeto.getAltitude())));
 
                 totalSize = entity.getContentLength();
                 httppost.setEntity(entity);

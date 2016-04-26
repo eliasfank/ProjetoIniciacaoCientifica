@@ -1,5 +1,5 @@
 package br.edu.uffs.cadastroObjetos;
-import android.app.Activity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ public class ConfigIp extends ActionBarActivity {
     Button buttonSaveMem;
     String strSavedMem;
 
-
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,16 +25,11 @@ public class ConfigIp extends ActionBarActivity {
 
         buttonSaveMem = (Button)findViewById(R.id.save_mem1);
 
-
         buttonSaveMem.setOnClickListener(buttonSaveMem1OnClickListener);
-
 
         LoadPreferences();
 
         editText.setText(strSavedMem, TextView.BufferType.EDITABLE);
-
-
-
     }
 
     Button.OnClickListener buttonSaveMem1OnClickListener
@@ -61,8 +55,8 @@ public class ConfigIp extends ActionBarActivity {
     private void LoadPreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences("PrefsFile",MODE_PRIVATE);
         strSavedMem = sharedPreferences.getString("MEM1", "");
-
     }
+
     public void iniciarApp() {
         Intent myIntent = new Intent(ConfigIp.this, Entrar.class);
         myIntent.putExtra("IP", strSavedMem);

@@ -15,8 +15,6 @@ public class ConfigIp extends Activity {
     Button buttonSaveMem1;
     String strSavedMem1;
 
-
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +24,11 @@ public class ConfigIp extends Activity {
 
         buttonSaveMem1 = (Button)findViewById(R.id.save_mem1);
 
-
         buttonSaveMem1.setOnClickListener(buttonSaveMem1OnClickListener);
-
 
         LoadPreferences();
 
         editText1.setText(strSavedMem1, TextView.BufferType.EDITABLE);
-
-
-
     }
 
     Button.OnClickListener buttonSaveMem1OnClickListener
