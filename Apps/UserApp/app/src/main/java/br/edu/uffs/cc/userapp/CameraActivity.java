@@ -68,8 +68,8 @@ public class CameraActivity extends Activity {
 
         setContentView(R.layout.activity_camera);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //Activity full screen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mCamera = getCameraInstance();
         CameraPreview mCameraPreview = new CameraPreview(this, mCamera);
@@ -81,11 +81,13 @@ public class CameraActivity extends Activity {
 
         List<Camera.Size> supSizes;
         supSizes = mCamera.getParameters().getSupportedPreviewSizes();
+
         Camera.Size size = supSizes.get(0);
-        for(int i=0;i<supSizes.size();i++)
-        {
-            if(supSizes.get(i).width > size.width)
+        size.width=0; size.height=0;
+        for(int i=0;i<supSizes.size();i++) {
+            if((supSizes.get(i).width > size.width) && (supSizes.get(i).width != 1920) && (supSizes.get(i).height != 1920)) {
                 size = supSizes.get(i);
+            }
         }
 
         Log.e("SIZE", size.width + "/" + size.height);

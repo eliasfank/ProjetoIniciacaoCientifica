@@ -1,5 +1,6 @@
 package br.edu.uffs.cadastroObjetos;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +9,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,7 +44,7 @@ public class NovoObjeto extends ActionBarActivity {
     TextView frase;
     private Integer localId;
     Context context;
-    private final int TAKE_PHOTO_CODE = 1;
+
 
     // LogCat tag
     private static final String TAG = NovoObjeto.class.getSimpleName();
@@ -264,5 +268,6 @@ public class NovoObjeto extends ActionBarActivity {
 
         return mediaFile;
     }
+
 
 }

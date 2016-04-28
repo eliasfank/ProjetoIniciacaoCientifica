@@ -27,14 +27,14 @@ for i in range(1,len(sys.argv)):
 	# the index
 	hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8],
 		[0, 256, 0, 256, 0, 256])
-	hist = cv2.normalize(hist).flatten()
+	cv2.normalize(hist,hist,0,255,cv2.NORM_MINMAX)
 	index[filename] = hist
 	if(i == 1):
 			principal = filename
 
 #Start Method
 methodName = "Intersection"
-method = cv2.cv.CV_COMP_INTERSECT
+method = 2
 # initialize the results dictionary and the sort
 # direction
 results = {}

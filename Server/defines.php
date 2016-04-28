@@ -22,8 +22,8 @@
     define("IMAGE_PATH_RESIZED", "ender_imagem_redimen");
     define("IMAGE_PATH_RESIZED_GRAY", "ender_imagem_redimen_gray");
 
-    define("MAX_RESIZE_WIDTH", 400);
-    define("MAX_RESIZE_HEIGHT", 400);
+    define("MAX_RESIZE_WIDTH", 500);
+    define("MAX_RESIZE_HEIGHT", 500);
 
     define("DB_TABLE_RESULTADO", "tabela_resultado");
     define("LAT_USER", "lat_user");

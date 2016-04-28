@@ -1,8 +1,6 @@
 import sys
 import cv2
 
-MIN_MATCH_COUNT = 10
-
 # Initiate SIFT detector
 sift = cv2.xfeatures2d.SIFT_create()
 

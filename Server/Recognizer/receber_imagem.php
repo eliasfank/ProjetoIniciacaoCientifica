@@ -93,13 +93,9 @@
 			putenv("LD_LIBRARY_PATH=/usr/local/lib");
 			
 			$scriptName = " features_detection.py";
+			#$scriptName = " opencv_correlation.py";
 			#$scriptName = " opencv_chi-squared.py";
 			#$scriptName = " opencv_intersection.py";
-			#$scriptName = " opencv_hellinger.py";
-			#$scriptName = " opencv_correlation.py";
-			#$scriptName = " scipy_euclidean.py";
-			#$scriptName = " scipy_manhattan.py";
-			#$scriptName = " scipy_chebysev.py";
 			
 			$ender_imagem = $nomeimagem_gray_resized;
 			$command = 'python'.$scriptName." ".$ender_imagem.$parametros;
