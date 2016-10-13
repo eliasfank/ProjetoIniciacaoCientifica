@@ -30,15 +30,18 @@ for (i) in images:
 
 	flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-	matches = flann.knnMatch(desPrincipal,des[i],k=2)
+	matches = flann.knnMatch(des[i],desPrincipal,k=2)
 
 	# store all the good matches as per Lowe's ratio test.
 	good = []
 	for m,n in matches:
 	    if m.distance < 0.7*n.distance:
 	        good.append(m)
-	if(len(good)*100/len(kp[i]) > bestLimear):
-		bestLimear = len(good)*100/len(kp[i])
+
+	mediaKP = len(kp[i])*0.7+len(kpPrincipal)*0.3
+
+	if(len(good)*100/mediaKP > bestLimear):
+		bestLimear = len(good)*100/mediaKP
 		bestImage = i
 
 print bestImage

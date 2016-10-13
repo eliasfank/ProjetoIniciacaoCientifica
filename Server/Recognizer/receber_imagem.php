@@ -12,10 +12,13 @@
     $response = array();
      
     // checando dados recebidos
-    if (isset($_POST['latitude']) && isset($_POST['longitude'])) {
+    if (isset($_POST['latitude']) && isset($_POST['longitude']) && isset($_POST['metodo']) && isset($_POST['limiar'])) {
      
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
+
+        $metodo = $_POST['metodo'];
+        $limiar = $_POST['limiar'];
 
         $nomeimagem = 'RecievedImages/Normal/recievedOn_'.date("Y.m.d_").date("H.i.s").'.jpg';
         $nomeimagem_resized = 'RecievedImages/NormalResized/recievedOn_'.date("Y.m.d_").date("H.i.s").'.jpg';
@@ -92,18 +95,22 @@
 	        //Precisamos mostrar onde o php deve procurar as bibliotecas
 			putenv("LD_LIBRARY_PATH=/usr/local/lib");
 			
-			$scriptName = " features_detection.py";
-			#$scriptName = " opencv_correlation.py";
+			$scriptName = " ".$metodo;
+
+	        #$scriptName = " fd.py";
+	        #$scriptName = " ch.py";
+	        #$scriptName = " opencv_correlation.py";
 			#$scriptName = " opencv_chi-squared.py";
 			#$scriptName = " opencv_intersection.py";
-			
+
+	
 			$ender_imagem = $nomeimagem_gray_resized;
 			$command = 'python'.$scriptName." ".$ender_imagem.$parametros;
 			
 			//Executando atraves do shell o script python
 			exec($command, $output);
 
-			if($output[1] > 10){
+			if($output[1] > $limiar){
 				$distancia = $mapeado[$output[0]]->distancia;
 		    	$idObjeto = $mapeado[$output[0]]->id;
 				//Enviando resposta para o android
@@ -119,7 +126,7 @@
 
 	    //Armazenando o resultado na base
 
-		$sql = "INSERT INTO ". DB_TABLE_RESULTADO ." (".LON_USER.",".LAT_USER.",".DISTANCIA_METROS.",".RESULTADO.") VALUES($longitude,$latitude,$distancia,$idObjeto);";
+		$sql = "INSERT INTO ". DB_TABLE_RESULTADO ." (".LON_USER.",".LAT_USER.",".DISTANCIA_METROS.",".RESULTADO.",".SCRIPT.") VALUES($longitude,$latitude,$distancia,$idObjeto,'$command');";
 		$conn->query($sql);
 
 	    $conn->close();

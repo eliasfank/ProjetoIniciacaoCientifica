@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 public class ConfigIp extends Activity {
 
-    EditText editText1;
+    EditText editText1, editMetodo, editLimiar;
     Button buttonSaveMem1;
-    String strSavedMem1;
+    String strSavedIp, strSavedMetodo, strSavedLimiar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,8 @@ public class ConfigIp extends Activity {
         setContentView(R.layout.activity_config_ip);
 
         editText1 = (EditText)findViewById(R.id.edittext1);
+        editMetodo = (EditText)findViewById(R.id.metodo);
+        editLimiar = (EditText)findViewById(R.id.limiar);
 
         buttonSaveMem1 = (Button)findViewById(R.id.save_mem1);
 
@@ -28,7 +30,9 @@ public class ConfigIp extends Activity {
 
         LoadPreferences();
 
-        editText1.setText(strSavedMem1, TextView.BufferType.EDITABLE);
+        editText1.setText(strSavedIp, TextView.BufferType.EDITABLE);
+        editMetodo.setText(strSavedMetodo, TextView.BufferType.EDITABLE);
+        editLimiar.setText(strSavedLimiar, TextView.BufferType.EDITABLE);
     }
 
     Button.OnClickListener buttonSaveMem1OnClickListener
@@ -37,7 +41,9 @@ public class ConfigIp extends Activity {
         @Override
         public void onClick(View arg0) {
             // TODO Auto-generated method stub
-            SavePreferences("MEM1", editText1.getText().toString());
+            SavePreferences("IP", editText1.getText().toString());
+            SavePreferences("METODO", editMetodo.getText().toString());
+            SavePreferences("LIMIAR", editLimiar.getText().toString());
             LoadPreferences();
             iniciarApp();
         }
@@ -53,12 +59,16 @@ public class ConfigIp extends Activity {
 
     private void LoadPreferences(){
         SharedPreferences sharedPreferences = getSharedPreferences("PrefsFile",MODE_PRIVATE);
-        strSavedMem1 = sharedPreferences.getString("MEM1", "");
-
+        strSavedIp = sharedPreferences.getString("IP", "");
+        strSavedMetodo = sharedPreferences.getString("METODO", "");
+        strSavedLimiar = sharedPreferences.getString("LIMIAR", "");
     }
+
     public void iniciarApp() {
         Intent myIntent = new Intent(ConfigIp.this, CameraActivity.class);
-        myIntent.putExtra("IP", strSavedMem1);
+        myIntent.putExtra("IP", strSavedIp);
+        myIntent.putExtra("METODO", strSavedMetodo);
+        myIntent.putExtra("LIMIAR", strSavedLimiar);
         ConfigIp.this.startActivity(myIntent);
     }
 }

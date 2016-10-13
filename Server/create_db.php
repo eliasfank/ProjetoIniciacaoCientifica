@@ -36,8 +36,19 @@
                         . LON_USER . " VARCHAR(120) NOT NULL,"
                         . LAT_USER . " VARCHAR(120) NOT NULL,"
                         . DISTANCIA_METROS . " DOUBLE NOT NULL,"
-                        . RESULTADO . " INT(10) UNSIGNED"
+                        . RESULTADO . " INT(10) UNSIGNED,"
+                        . SCRIPT . " MEDIUMTEXT"
                         . ")CHARACTER SET utf8 COLLATE utf8_general_ci;";
+
+                        /*CREATE TABLE IF NOT EXISTS tabela_resultado (
+                        	chave INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                        	lon_user VARCHAR(120) NOT NULL,
+                        	lat_user VARCHAR(120) NOT NULL,
+                        	distancia_metros DOUBLE NOT NULL,
+                        	resultado INT(10) UNSIGNED,
+                        	script MEDIUMTEXT)
+                        CHARACTER SET utf8 COLLATE utf8_general_ci;
+						*/
 
     //Conectando ao servidor e criando base
     $conn = new mysqli(SERVERNAME, USERNAME, PASS);
@@ -92,6 +103,7 @@
     $conn->close();
     
     //Limpando as pastas de imagens
+    /*
     removePasta("CadastroObjetos/ObjectImages/Normal/");
     removePasta("CadastroObjetos/ObjectImages/NormalResized/");
     removePasta("CadastroObjetos/ObjectImages/Gray/");
@@ -106,4 +118,5 @@
 		}
 	}
 	echo "Imagens removidas das pastas";
+	*/
 ?>

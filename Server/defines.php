@@ -2,7 +2,14 @@
     define("SERVERNAME", "localhost");
     define("USERNAME", "root");
     define("PASS", "");
+    
+    #
     define("DB_NAME", "banco_projeto");
+    #define("DB_NAME", "banco_projeto_cen1");
+    #define("DB_NAME", "banco_projeto_cen2");
+    #define("DB_NAME", "banco_projeto_cen3");
+    #
+    
     define("DB_TABLE_LOCAL", "tabela_local");
     define("DB_TABLE_USER", "tabela_usuario");
     define("DB_TABLE_OBJETO", "tabela_objeto");
@@ -30,4 +37,5 @@
     define("LON_USER", "lon_user");
     define("RESULTADO", "resultado");
     define("DISTANCIA_METROS", "distancia_metros");
+    define("SCRIPT", "script");
 ?>

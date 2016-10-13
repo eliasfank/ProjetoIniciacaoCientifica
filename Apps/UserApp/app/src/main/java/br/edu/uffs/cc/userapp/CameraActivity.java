@@ -58,6 +58,8 @@ public class CameraActivity extends Activity {
     public static final int MEDIA_TYPE_IMAGE = 1;
 
     private String FILE_UPLOAD_URL;
+    private String METODO;
+    private String LIMIAR;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,12 @@ public class CameraActivity extends Activity {
         preview.addView(mCameraPreview);
 
         SharedPreferences sharedPreferences = getSharedPreferences("PrefsFile", 0);
-        FILE_UPLOAD_URL = "http://"+sharedPreferences.getString("MEM1", "")+"/Recognizer/receber_imagem.php";
+        FILE_UPLOAD_URL = "http://"+sharedPreferences.getString("IP", "")+"/Recognizer/receber_imagem.php";
+        METODO = sharedPreferences.getString("METODO", "");
+        LIMIAR = sharedPreferences.getString("LIMIAR", "");
+
+        Toast.makeText(getApplicationContext(), METODO+LIMIAR, Toast.LENGTH_LONG).show();
+
 
         List<Camera.Size> supSizes;
         supSizes = mCamera.getParameters().getSupportedPreviewSizes();
@@ -236,6 +243,8 @@ public class CameraActivity extends Activity {
                 // Extra parameters if you want to pass to server
                 entity.addPart("latitude", new StringBody(Double.toString(im.getLat())));
                 entity.addPart("longitude", new StringBody(Double.toString(im.getLon())));
+                entity.addPart("metodo", new StringBody(METODO));
+                entity.addPart("limiar", new StringBody(LIMIAR));
 
                 httppost.setEntity(entity);
 

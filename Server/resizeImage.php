@@ -1,5 +1,5 @@
 <?php
-	//Code from: "https://github.com/Nimrod007/PHP_image_resize/blob/master/smart_resize_image.function.php"
+	//Adaptado de: "https://github.com/Nimrod007/PHP_image_resize/blob/master/smart_resize_image.function.php"
 	function smart_resize_image($file,
 		                          $string             = null,
 		                          $width              = 0, 

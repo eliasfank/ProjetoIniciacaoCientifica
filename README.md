@@ -1,7 +1,7 @@
 ProjetoIniciacaoCientifica
 ================================
 
-Meu trabalho no projeto de iniciação científica durante a graduação.
+UTILIZAÇÃO DE VISÃO COMPUTACIONAL E DETECÇÃO DE CARACTERÍSTICAS PARA AUXILIAR NA NAVEGAÇÃO DE PESSOAS COM DEFICIÊNCIA VISUAL EM AMBIENTES INTERNOS
 
 Aplicativos
 -----------

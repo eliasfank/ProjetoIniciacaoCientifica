@@ -14,7 +14,9 @@
 	        die("Connection failed: " . $conn->connect_error);
 	    }
 
-	    $sql = "SELECT *FROM ".DB_TABLE_OBJETO." WHERE ".LOCAL_ID." = $local_id";
+	    //$sql = "SELECT *FROM ".DB_TABLE_OBJETO." WHERE ".LOCAL_ID." = $local_id";
+	    //Apenas para mostrar os tres ultimos
+	    $sql = "SELECT *FROM ".DB_TABLE_OBJETO." WHERE ".LOCAL_ID." = $local_id"." order by ". KEY_ID." DESC LIMIT 3";
 		$result = $conn->query($sql);
 
 	    // checando se o resultado for vazio
