@@ -27,7 +27,6 @@ public class DbHelperCloud {
     private static final String TAG_NAME = "nome_local";
     private String url;
 
-
     JSONParser jsonParser = new JSONParser();
 
     public DbHelperCloud(Context context) {

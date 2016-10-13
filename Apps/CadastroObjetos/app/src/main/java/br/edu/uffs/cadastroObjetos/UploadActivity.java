@@ -195,7 +195,6 @@ public class UploadActivity extends Activity {
             }
 
             return responseString;
-
         }
 
         @Override

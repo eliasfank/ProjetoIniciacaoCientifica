@@ -53,6 +53,8 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
+        //Testes para encontrar os objetos dentro do raio
+
         //$sql = "SELECT * FROM ".DB_TABLE_OBJETO." ORDER BY sqrt(pow($longitude - ".LONGITUDE.", 2)+pow($latitude - ".LATITUDE.", 2)) LIMIT 10";
 		
 		//$sql = "SELECT *, (6371 *acos(cos(radians($latitude)) *cos(radians(latitude)) *cos(radians(longitude) - radians(longitude)) +sin(radians($latitude)) *sin(radians(latitude)))) AS distance FROM ". DB_TABLE_OBJETO ." HAVING distance <= 0.01";
